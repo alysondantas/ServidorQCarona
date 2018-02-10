@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import javax.swing.JTextArea;
 
 import br.com.qcarona.controller.ControllerDados;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 
 public class ThreadServidorConexao extends Thread{
@@ -36,15 +38,16 @@ public class ThreadServidorConexao extends Thread{
             //Inicia thread do cliente aceitando clientes
 
             //ObjectInputStream para receber o nome do arquivo
-            ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());//cria um objeto de entrada
-            ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());//cria um objeto de saida
-            String pack = (String) entrada.readObject();//obtem o pacote de entrada
+            DataInputStream entrada = new DataInputStream(cliente.getInputStream());//cria um objeto de entrada
+            DataOutputStream saida = new DataOutputStream(cliente.getOutputStream());//cria um objeto de saida
+            String pack = (String) entrada.readUTF();//obtem o pacote de entrada
             String informacoes[] = pack.split(Pattern.quote("|"));
+            System.out.println(cliente.getRemoteSocketAddress().toString() + " enviou " + pack);
             int opcao = Integer.parseInt(informacoes[0]);//recebe a opcao que o cliente mandou
             String s = "erro";//string de log com erro
             switch (opcao) {
                 case 0://Cadastro de realizar login
-                    String email = informacoes[1];//recebe as informações para cadastro
+                    String email = informacoes[1];//recebe as informaï¿½ï¿½es para cadastro
                     String senha = informacoes[2];
                     
                     String result = controller.realizaLogin(email, senha);
@@ -53,7 +56,7 @@ public class ThreadServidorConexao extends Thread{
                     }else{
                     	s = "Novao usuario realizando login: " + email + " com sucesso\n";//string de log
                     }
-                    saida.writeObject(result);
+                    saida.writeUTF(result);
                     saida.flush();
                     break;
                
@@ -66,20 +69,20 @@ public class ThreadServidorConexao extends Thread{
             cliente.close();//fecha o cliente
         } catch (SocketException e) {
             System.out.println("Filanizou o atendimento.");
-            textField.setText(textField.getText() + "\nAtendimento foi finalizado.");//caso alguma exceção desconheciada seja lançada ela encerra a thread e é exibida
+            textField.setText(textField.getText() + "\nAtendimento foi finalizado.");//caso alguma exceï¿½ï¿½o desconheciada seja lanï¿½ada ela encerra a thread e ï¿½ exibida
             try {
                 cliente.close();   //finaliza o cliente
             } catch (Exception ec) {
-                textField.setText(textField.getText() + "\nErro fatal cliente não finalizado: " + ec.getMessage());//cliente não foi finalizado
+                textField.setText(textField.getText() + "\nErro fatal cliente nï¿½o finalizado: " + ec.getMessage());//cliente nï¿½o foi finalizado
             }
-        } catch (Exception e) {//caso alguma exceção seja lançada
+        } catch (Exception e) {//caso alguma exceï¿½ï¿½o seja lanï¿½ada
             e.printStackTrace();
             System.out.println("Excecao ocorrida na thread: " + e);
-            textField.setText(textField.getText() + "\nExcecao ocorrida na thread: " + e.getMessage());//caso alguma exceção desconheciada seja lançada ela encerra a thread e é exibida
+            textField.setText(textField.getText() + "\nExcecao ocorrida na thread: " + e.getMessage());//caso alguma exceï¿½ï¿½o desconheciada seja lanï¿½ada ela encerra a thread e ï¿½ exibida
             try {
                 cliente.close();   //finaliza o cliente
             } catch (Exception ec) {
-                textField.setText(textField.getText() + "\nErro fatal cliente não finalizado: " + ec.getMessage());//cliente não foi finalizado
+                textField.setText(textField.getText() + "\nErro fatal cliente nï¿½o finalizado: " + ec.getMessage());//cliente nï¿½o foi finalizado
             }
         }
     }

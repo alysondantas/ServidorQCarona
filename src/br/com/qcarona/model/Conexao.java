@@ -7,43 +7,39 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Conexao {
-	
-	public Conexao(){
-		
-	}
-	
-	public boolean realizaconexao(){
-		String driver = "org.postgresql.Driver";
-        String user   = "postgres";
-        String senha = "12345";
-        String url      = "jdbc:postgresql://localhost:5432/jaime";
-        try
-        {
+
+    String driver = "org.postgresql.Driver";
+    String user = "postgres";
+    static String senha = "postgres";
+    String url = "jdbc:postgresql://localhost:5432/jaime";
+
+    public Conexao() {
+
+    }
+
+    public boolean realizaconexao() {
+        try {
             Class.forName(driver);
             Connection con = null;
             con = (Connection) DriverManager.getConnection(url, user, senha);
-            System.out.println("Conexão realizada com sucesso.");
+            System.out.println("Conexï¿½o realizada com sucesso.");
             return true;
-        }
-        catch (ClassNotFoundException ex)
-        {
+        } catch (ClassNotFoundException ex) {
             System.err.print(ex.getMessage());
-        } 
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             System.err.print(e.getMessage());
         }
-		return false;
-	}
-	
-	public static Connection getConnection() throws SQLException{
+        return false;
+    }
+
+    public static Connection getConnection() throws SQLException {
         try {
-             Class.forName("org.postgresql.Driver");                             
-             return DriverManager.getConnection("jdbc:postgresql://localhost:5432/qcarona?user=postgres&password=12345");                         
+            Class.forName("org.postgresql.Driver");
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/qcarona?user=postgres&password=" + Conexao.senha);
         } catch (ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(null, e);            
-            throw new SQLException();            
-        }        
-    } 
+            JOptionPane.showMessageDialog(null, e);
+            throw new SQLException();
+        }
+    }
 
 }
