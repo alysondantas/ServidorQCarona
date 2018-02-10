@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import javax.swing.JTextArea;
 
 import br.com.qcarona.controller.ControllerDados;
+import br.com.qcarona.model.Protocolo;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
@@ -51,7 +52,7 @@ public class ThreadServidorConexao extends Thread{
                     String senha = informacoes[2];
                     
                     String result = controller.realizaLogin(email, senha);
-                    if(result.equals("1") || result.equals("2")){
+                    if(result.equals(Protocolo.Notificacao.USUARIO_NAO_CADASTRADO+"") || result.equals("2")){
                     	s = "Tentativa falha de realizar login em: " + email;
                     }else{
                     	s = "Novao usuario realizando login: " + email + " com sucesso\n";//string de log
