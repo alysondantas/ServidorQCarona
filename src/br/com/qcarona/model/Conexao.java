@@ -10,7 +10,7 @@ public class Conexao {
 
     String driver = "org.postgresql.Driver";
     String user = "postgres";
-    static String senha = "postgres";
+    static String senha = "12345";
     String url = "jdbc:postgresql://localhost:5432/jaime";
 
     public Conexao() {

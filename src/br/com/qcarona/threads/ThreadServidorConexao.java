@@ -18,75 +18,85 @@ import java.io.DataOutputStream;
 
 public class ThreadServidorConexao extends Thread{
 	private Socket cliente;//socket do cliente
-    private ServerSocket server;//socket do servidor
-    private JTextArea textField;//para atualizar a interface
-    private ControllerDados controller;//instancia do controller
-    
-    public ThreadServidorConexao(ServerSocket server, JTextArea textField, Socket cliente) {//recebe o socket server e o textArea
-        this.server = server;
-        this.cliente = cliente;
-        this.textField = textField;
-        try {
+	private ServerSocket server;//socket do servidor
+	private JTextArea textField;//para atualizar a interface
+	private ControllerDados controller;//instancia do controller
+
+	public ThreadServidorConexao(ServerSocket server, JTextArea textField, Socket cliente) {//recebe o socket server e o textArea
+		this.server = server;
+		this.cliente = cliente;
+		this.textField = textField;
+		try {
 			controller = ControllerDados.getInstance();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
-    @Override
-    public void run() {
-        try {
-            //Inicia thread do cliente aceitando clientes
+	@Override
+	public void run() {
+		try {
+			//Inicia thread do cliente aceitando clientes
 
-            //ObjectInputStream para receber o nome do arquivo
-            DataInputStream entrada = new DataInputStream(cliente.getInputStream());//cria um objeto de entrada
-            DataOutputStream saida = new DataOutputStream(cliente.getOutputStream());//cria um objeto de saida
-            String pack = (String) entrada.readUTF();//obtem o pacote de entrada
-            String informacoes[] = pack.split(Pattern.quote("|"));
-            System.out.println(cliente.getRemoteSocketAddress().toString() + " enviou " + pack);
-            int opcao = Integer.parseInt(informacoes[0]);//recebe a opcao que o cliente mandou
-            String s = "erro";//string de log com erro
-            switch (opcao) {
-                case 0://realizar login
-                    String email = informacoes[1];//recebe as informaï¿½ï¿½es para cadastro
-                    String senha = informacoes[2];
-                    
-                    String result = controller.realizaLogin(email, senha);
-                    if(result.equals(Protocolo.Notificacao.USUARIO_NAO_CADASTRADO+"") || result.equals("2")){
-                    	s = "Tentativa falha de realizar login em: " + email;
-                    }else{
-                    	s = "Novao usuario realizando login: " + email + " com sucesso\n";//string de log
-                    }
-                    saida.writeUTF(result);
-                    saida.flush();
-                    break;
-                case 1://cadastrar
-                	break;
-            }
-            System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
-            textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
+			//ObjectInputStream para receber o nome do arquivo
+			ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());//cria um objeto de entrada
+			ObjectOutputStream saida = new ObjectOutputStream(cliente.getOutputStream());//cria um objeto de saida
+			String pack = null;
+			Object object = entrada.readObject();
+			System.out.println("Novo recebdido");
+			String recebido;
+			if ((object != null) && (object instanceof String)) {
+				pack = (String) object;
 
-            entrada.close();//finaliza a entrada
-            saida.close();//finaliza a saida
-            cliente.close();//fecha o cliente
-        } catch (SocketException e) {
-            System.out.println("Filanizou o atendimento.");
-            textField.setText(textField.getText() + "\nAtendimento foi finalizado.");//caso alguma exceï¿½ï¿½o desconheciada seja lanï¿½ada ela encerra a thread e ï¿½ exibida
-            try {
-                cliente.close();   //finaliza o cliente
-            } catch (Exception ec) {
-                textField.setText(textField.getText() + "\nErro fatal cliente nï¿½o finalizado: " + ec.getMessage());//cliente nï¿½o foi finalizado
-            }
-        } catch (Exception e) {//caso alguma exceï¿½ï¿½o seja lanï¿½ada
-            e.printStackTrace();
-            System.out.println("Excecao ocorrida na thread: " + e);
-            textField.setText(textField.getText() + "\nExcecao ocorrida na thread: " + e.getMessage());//caso alguma exceï¿½ï¿½o desconheciada seja lanï¿½ada ela encerra a thread e ï¿½ exibida
-            try {
-                cliente.close();   //finaliza o cliente
-            } catch (Exception ec) {
-                textField.setText(textField.getText() + "\nErro fatal cliente nï¿½o finalizado: " + ec.getMessage());//cliente nï¿½o foi finalizado
-            }
-        }
-    }
+				String informacoes[] = pack.split(Pattern.quote("|"));
+				System.out.println(cliente.getRemoteSocketAddress().toString() + " enviou " + pack);
+				int opcao = Integer.parseInt(informacoes[0]);//recebe a opcao que o cliente mandou
+				String s = "erro";//string de log com erro
+				switch (opcao) {
+				case 0://realizar login
+					String email = informacoes[1];//recebe as informaï¿½ï¿½es para cadastro
+					String senha = informacoes[2];
+
+					String result = controller.realizaLogin(email, senha);
+					if(result.equals(Protocolo.Notificacao.USUARIO_NAO_CADASTRADO+"") || result.equals("2")){
+						s = "Tentativa falha de realizar login em: " + email;
+					}else{
+						s = "Novao usuario realizando login: " + email + " com sucesso\n";//string de log
+					}
+					saida.writeObject(result);
+					saida.flush();
+					break;
+				case 1://cadastrar
+					break;
+				}
+				System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
+				textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
+			}else{
+				System.out.println("\nObjeto recebiddo não corresponde " + cliente.getRemoteSocketAddress().toString());
+				textField.setText(textField.getText() + "\nObjeto recebiddo não corresponde " + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
+
+			}
+			entrada.close();//finaliza a entrada
+			saida.close();//finaliza a saida
+			cliente.close();//fecha o cliente
+		} catch (SocketException e) {
+			System.out.println("Filanizou o atendimento.");
+			textField.setText(textField.getText() + "\nAtendimento foi finalizado.");//caso alguma exceï¿½ï¿½o desconheciada seja lanï¿½ada ela encerra a thread e ï¿½ exibida
+			try {
+				cliente.close();   //finaliza o cliente
+			} catch (Exception ec) {
+				textField.setText(textField.getText() + "\nErro fatal cliente nï¿½o finalizado: " + ec.getMessage());//cliente nï¿½o foi finalizado
+			}
+		} catch (Exception e) {//caso alguma exceï¿½ï¿½o seja lanï¿½ada
+			e.printStackTrace();
+			System.out.println("Excecao ocorrida na thread: " + e);
+			textField.setText(textField.getText() + "\nExcecao ocorrida na thread: " + e.getMessage());//caso alguma exceï¿½ï¿½o desconheciada seja lanï¿½ada ela encerra a thread e ï¿½ exibida
+			try {
+				cliente.close();   //finaliza o cliente
+			} catch (Exception ec) {
+				textField.setText(textField.getText() + "\nErro fatal cliente nï¿½o finalizado: " + ec.getMessage());//cliente nï¿½o foi finalizado
+			}
+		}
+	}
 }
