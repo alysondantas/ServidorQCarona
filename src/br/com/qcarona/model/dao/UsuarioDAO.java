@@ -34,9 +34,10 @@ public class UsuarioDAO {
 	}
 
 	public Usuario realizaLogin(String usuario, String senha) throws SQLException{
+		System.out.println("Usuario e senha para login: " + usuario + " " + senha);
 		PreparedStatement stm = this.con.prepareStatement("SELECT * FROM usuarios WHERE email='" + usuario +"' AND senha='" + senha + "' LIMIT 1;");
 		ResultSet rs = stm.executeQuery();
-		if(rs.isLast()){
+		if(rs.next()){
 			Usuario user = new Usuario();
 			user.setId(rs.getLong("id"));
 			user.setNome(rs.getString("nome"));

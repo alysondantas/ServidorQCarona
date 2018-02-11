@@ -40,11 +40,11 @@ public class ControllerDados {
 
     public String realizaLogin(String email, String senha) throws NoSuchAlgorithmException, SQLException {
         String senhaCrypt = geraMD5(senha);
-        Usuario user = userdao.realizaLogin(email, senhaCrypt);
+        Usuario user = userdao.realizaLogin(email, senha);
         if (user == null) {
             return Protocolo.Notificacao.USUARIO_NAO_CADASTRADO+"";
         }
-        return Protocolo.Notificacao.LOGIN_REALIZADO + "|" + user.getNome();
+        return Protocolo.Notificacao.LOGIN_REALIZADO + "|" + user.getNome() + "|" + user.getId() + "|" + user.getSobreNome();
     }
 
     public void listarUsuarios() throws SQLException {
