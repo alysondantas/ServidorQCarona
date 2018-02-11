@@ -48,7 +48,7 @@ public class ThreadServidorConexao extends Thread{
             int opcao = Integer.parseInt(informacoes[0]);//recebe a opcao que o cliente mandou
             String s = "erro";//string de log com erro
             switch (opcao) {
-                case 0://Cadastro de realizar login
+                case 0://realizar login
                     String email = informacoes[1];//recebe as informa��es para cadastro
                     String senha = informacoes[2];
                     
@@ -61,7 +61,8 @@ public class ThreadServidorConexao extends Thread{
                     saida.writeUTF(result);
                     saida.flush();
                     break;
-               
+                case 1://cadastrar
+                	break;
             }
             System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
             textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
