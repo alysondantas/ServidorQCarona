@@ -68,6 +68,22 @@ public class ThreadServidorConexao extends Thread{
 					saida.flush();
 					break;
 				case 1://cadastrar
+					String nomeCad = informacoes[1];
+					String sobrenomeCad = informacoes[2];
+					String emailCad = informacoes[3];
+					String senhaCad = informacoes[4];
+					String dataCad = informacoes[5];
+					String telCad = informacoes[6];
+					String cepCad = informacoes[7];
+					boolean b = controller.cadastra(nomeCad, sobrenomeCad, emailCad, senhaCad, dataCad, telCad, cepCad);
+					if(b){
+						s = "Novo cadastro realizado em: " + emailCad;
+						saida.writeObject("103");
+					}else{
+						s = "Tentativa falha de cadastrar: " + emailCad;
+						saida.writeObject("100");
+					}
+					saida.flush();
 					break;
 				}
 				System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());

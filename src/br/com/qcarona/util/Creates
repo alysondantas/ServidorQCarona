@@ -5,6 +5,9 @@ CREATE TABLE public.usuarios (
   email VARCHAR(100) NOT NULL,
   numero VARCHAR(100) NOT NULL,
   senha VARCHAR(32) NOT NULL,
+  cep VARCHAR(9),
+  data VARCHAR(10),
+  datacadastrado DATE DEFAULT 'now'::text::date,
   CONSTRAINT usuarios_email_key UNIQUE(email),
   CONSTRAINT usuarios_numero_key UNIQUE(numero),
   CONSTRAINT usuarios_pkey PRIMARY KEY(id)

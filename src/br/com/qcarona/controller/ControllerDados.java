@@ -56,4 +56,14 @@ public class ControllerDados {
         m.update(s.getBytes(), 0, s.length());
         return "" + new BigInteger(1, m.digest()).toString(16);
     }
+    
+    public boolean cadastra(String nome, String sobrenome, String email, String senha, String data, String tel, String cep){
+    	boolean b = false;
+    	if(nome != null && email !=null && senha!=null){
+    		b = userdao.realizaCadastro(nome, sobrenome, email, senha, data, tel, cep);
+    	}
+    	
+    	return b;
+    	
+    }
 }

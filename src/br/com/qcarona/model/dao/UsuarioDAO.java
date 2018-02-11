@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
+
 import br.com.qcarona.model.Conexao;
 import br.com.qcarona.model.Usuario;
 
@@ -52,5 +54,36 @@ public class UsuarioDAO {
 		rs.close();
 		stm.close();
 		return null;
+	}
+	public boolean realizaCadastro(String nome, String sobrenome, String email, String senha, String data, String tel, String cep) {
+		// TODO Auto-generated method stub
+		//String sql = "INSERT INTO usuarios (nome, sobrenome, email, senha, numero, cep, data) VALUES ('"+ nome +"', '"+ sobrenome +"', '"+ email +"', '"+ senha +"', '"+ tel +"', '"+ cep +"', '"+ data +"');";
+		String sql = "Insert into  usuarios (nome, sobrenome, email, senha, numero, cep, data) values(?, ?, ?, ?,?,?,?)";
+		//ResultSet rs = stm.executeQuery();
+		//System.out.println("Chegou aqui");
+		try{          
+				PreparedStatement stm = this.con.prepareStatement(sql);
+				stm.setString(1, nome);
+				stm.setString(2, sobrenome);
+				stm.setString(3, email);
+				stm.setString(4, senha);
+				stm.setString(5, tel);
+				stm.setString(6, cep);
+				stm.setString(7, data);
+	            stm.executeUpdate();
+	            stm.close();
+	            
+	            return true;
+	          //JOptionPane.showMessageDialog(null,"Registro Inserido Com Sucesso","Mensagem do Programa",JOptionPane.INFORMATION_MESSAGE);
+				//stm.close();
+	          //con.close();
+				//return true;
+		}catch(SQLException ex){
+			//ex.getMessage();
+			//ex.printStackTrace();
+			return false;
+			//JOptionPane.showMessageDialog(null,"Conexão não estabelecida Comandos Digitados Inválidos","Mensagem do Programa",JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 }

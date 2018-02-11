@@ -161,7 +161,7 @@ public class MenuServer {
 		try {
 			controllerDados.listarUsuarios();
 		} catch (SQLException e) {
-			System.out.println("Problema no sql");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
