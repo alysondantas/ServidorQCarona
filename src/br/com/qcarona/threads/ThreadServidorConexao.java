@@ -33,7 +33,8 @@ public class ThreadServidorConexao extends Thread{
 			e.printStackTrace();
 		}
     }
-    
+
+    @Override
     public void run() {
         try {
             //Inicia thread do cliente aceitando clientes
