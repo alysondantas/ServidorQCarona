@@ -9,9 +9,9 @@ import javax.swing.JOptionPane;
 public class Conexao {
 
     String driver = "org.postgresql.Driver";
-    String user = "postgres";
+    static String user = "alyson";
     static String senha = "12345";
-    String url = "jdbc:postgresql://localhost:5432/jaime";
+    String url = "jdbc:postgresql://localhost:5432/qcarona";
 
     public Conexao() {
 
@@ -35,7 +35,7 @@ public class Conexao {
     public static Connection getConnection() throws SQLException {
         try {
             Class.forName("org.postgresql.Driver");
-            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/qcarona?user=postgres&password=" + Conexao.senha);
+            return DriverManager.getConnection("jdbc:postgresql://localhost:5432/qcarona?user="+ user +"&password=" + Conexao.senha);
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, e);
             throw new SQLException();
