@@ -50,7 +50,7 @@ public class ThreadServidorConexao extends Thread{
 				pack = (String) object;
 
 				String informacoes[] = pack.split(Pattern.quote("|"));
-				System.out.println(cliente.getRemoteSocketAddress().toString() + " enviou " + pack);
+				//System.out.println(cliente.getRemoteSocketAddress().toString() + " enviou " + pack);
 				int opcao = Integer.parseInt(informacoes[0]);//recebe a opcao que o cliente mandou
 				String s = "erro";//string de log com erro
 				switch (opcao) {
