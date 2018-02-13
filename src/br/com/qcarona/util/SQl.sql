@@ -13,3 +13,22 @@ CREATE TABLE public.usuarios (
   CONSTRAINT usuarios_pkey PRIMARY KEY(id)
 ) 
 WITH (oids = false);
+
+CREATE TABLE public.amigos (
+    idamizade SERIAL,
+    idPrimUsuario INTEGER NOT NULL,
+    idSecUsuario INTEGER NOT NULL,
+    CONSTRAINT PKAmigos PRIMARY KEY (idamizade),
+    CONSTRAINT FKAmigosUsuario FOREIGN KEY(idPrimUsuario) REFERENCES usuarios(id),
+    CONSTRAINT FKAmigosUsuario2 FOREIGN KEY(idSecUSuario) REFERENCES usuarios(id)
+);
+
+CREATE TABLE public.solicitacaoAmizade (
+    idsolicitacao SERIAL,
+    idUsuarioSolicitante INTEGER NOT NULL,
+    idUsuarioSolicitado INTEGER NOT NULL,
+    dataSolicitacao TIMESTAMP,
+    CONSTRAINT PKSolicitacao PRIMARY KEY(idsolicitacao),
+    CONSTRAINT FKSolicitanteUsuario FOREIGN KEY (idUsuarioSolicitante) REFERENCES usuarios(id),
+    CONSTRAINT FKSolicitadoUSuario FOREIGN KEY (idUsuarioSolicitado) REFERENCES usuarios(id)
+);
