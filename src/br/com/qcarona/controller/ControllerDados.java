@@ -65,5 +65,20 @@ public class ControllerDados {
     	
     	return b;
     	
+    } 
+    
+    public Usuario buscarUsuario(String email) throws SQLException{
+        if(!email.trim().equals("")){
+            return userdao.buscarUsuarioEmail(email);
+        }
+        return null;
+    }
+    
+    public boolean solicitarAmizade(int id){
+        return true;
+    }
+    
+    public boolean solicitarAmizade(String email){
+        return true;
     }
 }

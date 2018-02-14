@@ -14,6 +14,7 @@ public abstract class Protocolo {
      public abstract class Solicitacao{
         public static final int FAZER_LOGIN = 0;
         public static final int CADASTRA_USUARIO = 1;
+        public static final int BUSCAR_USUARIO_EMAIL = 2;
     }
 
     public abstract class Notificacao {
@@ -21,5 +22,6 @@ public abstract class Protocolo {
         public static final int SENHA_INCORRETA = 101;
         public static final int LOGIN_REALIZADO = 102;
         public static final int USUARIO_CADASTRADO = 103;
+        public static final int RETORNO_BUSCA_EMAIL = 104;
     }
 }
