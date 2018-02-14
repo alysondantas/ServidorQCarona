@@ -11,8 +11,11 @@ import java.util.regex.Pattern;
 import javax.swing.JTextArea;
 
 import br.com.qcarona.controller.ControllerDados;
+import br.com.qcarona.exception.JaExisteAmizadeException;
 import br.com.qcarona.model.Protocolo;
 import br.com.qcarona.model.Usuario;
+import br.com.qcarona.model.dao.SolicitacaoDAO;
+import br.com.qcarona.model.dao.UsuarioDAO;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
@@ -100,6 +103,24 @@ public class ThreadServidorConexao extends Thread {
                             saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
                         }
                         saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.SOLICITAR_AMIZADE:
+                        if (informacoes[1] != null) {
+                            UsuarioDAO userDAO = new UsuarioDAO();
+                            SolicitacaoDAO solicitacaoDAO = new SolicitacaoDAO();
+                            Usuario user1 = userDAO.buscarUsuarioEmail(informacoes[1].trim());
+                            Usuario user2 = userDAO.buscarUsuarioID(Integer.parseInt(informacoes[2].trim()));
+                            try {
+                                boolean resulta = solicitacaoDAO.inserirAmizade(user1, user2);
+                                if (resulta) {
+                                    String envio = Protocolo.Notificacao.SOLICITACAO_AMIZ_ENVIADA + "|";
+                                    saida.writeObject(envio);
+                                }
+                            } catch (JaExisteAmizadeException e) {
+                                String envio = Protocolo.Notificacao.JA_EXISTE_SOLICITACAO_AMIZ + "|";
+                                saida.writeObject(envio);
+                            }
+                        }
                         break;
                 }
                 System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());

@@ -99,12 +99,34 @@ public class UsuarioDAO {
             user.setId(rs.getLong("id"));
             user.setNome(rs.getString("nome"));
             user.setSobreNome(rs.getString("sobrenome"));
+            user.setEmail(rs.getString("email"));
             System.out.println("Nome: " + user.getNome() + " Id: " + user.getId());
             rs.close();
             stm.close();
             return user;
         } else {
             System.out.println("deu ruim aqui: Nao houve retorno na busca por email.");
+        }
+        rs.close();
+        stm.close();
+        return null;
+    }
+    
+    public Usuario buscarUsuarioID(int idUsuario) throws SQLException {
+        PreparedStatement stm = this.con.prepareStatement("SELECT * FROM usuarios WHERE id='" + idUsuario + "' LIMIT 1;");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            Usuario user = new Usuario();
+            user.setId(rs.getLong("id"));
+            user.setNome(rs.getString("nome"));
+            user.setEmail(rs.getString("email"));
+            user.setSobreNome(rs.getString("sobrenome"));
+            System.out.println("Nome: " + user.getNome() + " Id: " + user.getId());
+            rs.close();
+            stm.close();
+            return user;
+        } else {
+            System.out.println("deu ruim aqui: Nao houve retorno na busca por id.");
         }
         rs.close();
         stm.close();
