@@ -126,6 +126,42 @@ public class ThreadServidorConexao extends Thread {
                         int idUsuario = Integer.parseInt(informacoes[1].trim());
                         
                         break;
+                    case Protocolo.Solicitacao.EDITAR_PERFIL:
+                    	String nomeEdit = informacoes[1].trim();
+                        String sobrenomeEdit = informacoes[2].trim();
+                        String emailEdit = informacoes[3].trim();
+                        String senhaEdit = informacoes[4].trim();
+                        String dataEdit = informacoes[5].trim();
+                        String telEdit = informacoes[6].trim();
+                        String idEdit = informacoes[7].trim();
+                        boolean b2 = controller.editar(nomeEdit, sobrenomeEdit, emailEdit, senhaEdit, dataEdit, telEdit, idEdit);
+                        if (b2) {
+                            s = "Nova edição realizada em: " + emailEdit;
+                            saida.writeObject("103");
+                        } else {
+                            s = "Tentativa falha de editar: " + emailEdit;
+                            saida.writeObject("100");
+                        }
+                        saida.flush();
+                    	break;
+                    case Protocolo.Solicitacao.OBTEM_PERFIL:
+                    	String idObtido = informacoes[1].trim();
+                        String resultObter = controller.obterPerfil(idObtido);
+                        if(resultObter.equals(Protocolo.Notificacao.USUARIO_NAO_CADASTRADO + "")){
+                        	s = "Erro ao tentar obter perfil";
+                        }else{
+                        	s = "Solicitação de obter perfil concluida";
+                        }
+                        /*if (b2) {
+                            s = "Nova Obtenção de perfil realizada em: " + idObtido;
+                            saida.writeObject(resultObter);
+                        } else {
+                            s = "Tentativa falha de editar: " + emailEdit;
+                            saida.writeObject("100");
+                        }*/
+                        saida.writeObject(resultObter);
+                        saida.flush();
+                    	break;
                 }
                 System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
                 textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea

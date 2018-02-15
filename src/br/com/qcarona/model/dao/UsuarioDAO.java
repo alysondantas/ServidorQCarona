@@ -58,6 +58,30 @@ public class UsuarioDAO {
         stm.close();
         return null;
     }
+    
+    public Usuario ObtemPerfil(int id) throws SQLException {
+        PreparedStatement stm = this.con.prepareStatement("SELECT * FROM usuarios WHERE id='" + id + "' LIMIT 1;");
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            Usuario user = new Usuario();
+            user.setId(rs.getLong("id"));
+            user.setNome(rs.getString("nome"));
+            user.setSobreNome(rs.getString("sobrenome"));
+            user.setEmail(rs.getString("email"));
+            user.setData(rs.getString("data"));
+            user.setNumero(rs.getString("numero"));
+            user.setQualificacao(rs.getString("qualificacao"));
+            System.out.println("Nome: " + user.getNome() + " Id: " + user.getId());
+            rs.close();
+            stm.close();
+            return user;
+        } else {
+            System.out.println("deu ruim aqui");
+        }
+        rs.close();
+        stm.close();
+        return null;
+    }
 
     public boolean realizaCadastro(String nome, String sobrenome, String email, String senha, String data, String tel, String cep) {
         // TODO Auto-generated method stub
