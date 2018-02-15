@@ -36,5 +36,12 @@ CREATE TABLE public.solicitacaoAmizade (
 CREATE TABLE public.caronasOfertadas (
     idCaronasOfertadas SERIAL,
     idUsuarioOfertante INTEGER NOT NULL,
-    cidadeOrigem VARCHAR
+    idCidadeOrigem INTEGER NOT NULL,
+    idCidadeDestino INTEGER NOT NULL,
+    dataHoraSaida TIMESTAMP,
+    quantVagas INTEGER NOT NULL,
+    CONSTRAINT PKCaronas PRIMARY KEY(idCaronasOfertadas),
+    CONSTRAINT FKCaronasUsuario FOREIGN KEY(idUsuarioOfertante) REFERENCES usuarios(id),
+    CONSTRAINT FKCaronasCidadeOrigem FOREIGN KEY(idCidadeOrigem) REFERENCES cidade(id),
+    CONSTRAINT FKCaronasCidadeDestino FOREIGN KEY(idCidadeDestino) REFERENCES cidade(id)
 );

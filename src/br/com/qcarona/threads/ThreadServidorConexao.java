@@ -123,6 +123,7 @@ public class ThreadServidorConexao extends Thread {
                         }
                         break;
                     case Protocolo.Solicitacao.CARONAS_DISPONIVEIS:
+                        int idUsuario = Integer.parseInt(informacoes[1].trim());
                         
                         break;
                 }
