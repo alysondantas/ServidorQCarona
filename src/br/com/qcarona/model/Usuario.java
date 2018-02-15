@@ -6,6 +6,9 @@ public class Usuario {
     private String nome;
     private String sobreNome;
     private String email;
+    private String numero;
+    private String data;
+    private String qualificacao;
 
     //get e sets
     public Long getId() {
@@ -39,5 +42,29 @@ public class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getQualificacao() {
+		return qualificacao;
+	}
+
+	public void setQualificacao(String qualificacao) {
+		this.qualificacao = qualificacao;
+	}
 
 }

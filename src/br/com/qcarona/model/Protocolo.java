@@ -18,6 +18,7 @@ public abstract class Protocolo {
         public static final int SOLICITAR_AMIZADE = 3;
         public static final int CARONAS_DISPONIVEIS = 4;
         public static final int EDITAR_PERFIL = 5;
+        public static final int OBTEM_PERFIL = 6;
     }
 
     public abstract class Notificacao {

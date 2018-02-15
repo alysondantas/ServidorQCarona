@@ -46,6 +46,15 @@ public class ControllerDados {
         }
         return Protocolo.Notificacao.LOGIN_REALIZADO + "|" + user.getNome() + "|" + user.getId() + "|" + user.getSobreNome();
     }
+    
+    public String obterPerfil(String idS) throws SQLException{
+    	int id = Integer.parseInt(idS);
+        Usuario user = userdao.ObtemPerfil(id);
+        if (user == null) {
+            return Protocolo.Notificacao.USUARIO_NAO_CADASTRADO+"";
+        }
+        return Protocolo.Notificacao.LOGIN_REALIZADO + "|" + user.getNome() + "|" + user.getSobreNome() +"|" + user.getData() + "|" + user.getEmail() + "|" + user.getNumero() + "|" + user.getQualificacao() + "|" + user.getId();
+    }
 
     public void listarUsuarios() throws SQLException {
         userdao.retornaConsultaClientes();
@@ -66,6 +75,10 @@ public class ControllerDados {
     	return b;
     	
     } 
+    
+    public boolean editar(String nome, String sobrenome, String email, String senha, String data, String tel, String id){
+    	return true;
+    }
     
     public Usuario buscarUsuario(String email) throws SQLException{
         if(!email.trim().equals("")){
