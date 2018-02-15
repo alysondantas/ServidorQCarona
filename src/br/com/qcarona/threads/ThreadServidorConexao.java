@@ -90,7 +90,7 @@ public class ThreadServidorConexao extends Thread {
                         saida.flush();
                         break;
                     case Protocolo.Solicitacao.BUSCAR_USUARIO_EMAIL:
-                        if (informacoes[1] != null) {
+                        if (informacoes.length > 1 && informacoes[1] != null) {
                             String emailBusca = informacoes[1].trim();
                             Usuario user = controller.buscarUsuario(emailBusca);
                             if (user != null) {
@@ -121,6 +121,9 @@ public class ThreadServidorConexao extends Thread {
                                 saida.writeObject(envio);
                             }
                         }
+                        break;
+                    case Protocolo.Solicitacao.CARONAS_DISPONIVEIS:
+                        
                         break;
                 }
                 System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());

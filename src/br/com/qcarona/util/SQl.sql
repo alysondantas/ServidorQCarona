@@ -32,3 +32,9 @@ CREATE TABLE public.solicitacaoAmizade (
     CONSTRAINT FKSolicitanteUsuario FOREIGN KEY (idUsuarioSolicitante) REFERENCES usuarios(id),
     CONSTRAINT FKSolicitadoUSuario FOREIGN KEY (idUsuarioSolicitado) REFERENCES usuarios(id)
 );
+
+CREATE TABLE public.caronasOfertadas (
+    idCaronasOfertadas SERIAL,
+    idUsuarioOfertante INTEGER NOT NULL,
+    cidadeOrigem VARCHAR
+);
