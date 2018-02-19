@@ -156,4 +156,28 @@ public class UsuarioDAO {
         stm.close();
         return null;
     }
+    
+    public boolean editaUsuario(String nome, String sobrenome, String email, String senha, String data, String tel, String id) throws SQLException{
+    	try {
+             String sql = "UPDATE usuarios SET nome =?, sobrenome = ?,email = ?, senha = ?, data = ?, numero = ? WHERE id = '"+id +"'";
+             //String sql = "UPDATE contato SET nome=?, sobrenome=? WHERE id=?";
+             PreparedStatement pstm = this.con.prepareStatement(sql);
+             pstm.setString(1, nome);
+             pstm.setString(2, sobrenome);
+             pstm.setString(3, email);
+             pstm.setString(4, senha);
+             pstm.setString(5, data);
+             pstm.setString(6, tel);
+             
+             pstm.executeUpdate(); // executeUpdate toda vez que for utilizar DML (insert, update, delete)
+
+             //JOptionPane.showMessageDialog(null, "Atualizado com Sucesso");
+             
+             pstm.close();
+             return true;
+    	}catch(SQLException erro){
+    		erro.printStackTrace();
+    		return false;
+    	}
+    }
 }

@@ -76,8 +76,9 @@ public class ControllerDados {
     	
     } 
     
-    public boolean editar(String nome, String sobrenome, String email, String senha, String data, String tel, String id){
-    	return true;
+    public boolean editar(String nome, String sobrenome, String email, String senha, String data, String tel, String id) throws SQLException{
+    	boolean b = userdao.editaUsuario(nome, sobrenome, email, senha, data, tel, id);
+    	return b;
     }
     
     public Usuario buscarUsuario(String email) throws SQLException{
