@@ -157,6 +157,16 @@ public class UsuarioDAO {
         return null;
     }
     
+    public PreparedStatement buscarAmigosID(int idUsuario) throws SQLException {
+    	String sql = "SELECT nome,email,id FROM usuarios INNER JOIN amigos ON idprimusuario = '"+ idUsuario+"' AND idsecusuario = id;";
+        PreparedStatement stm = this.con.prepareStatement(sql);
+        //ResultSet rs = stm.executeQuery();
+
+        return stm;
+        //stm.close();
+        //return rs;
+    }
+    
     public boolean editaUsuario(String nome, String sobrenome, String email, String senha, String data, String tel, String id) throws SQLException{
     	try {
              String sql = "UPDATE usuarios SET nome =?, sobrenome = ?,email = ?, senha = ?, data = ?, numero = ? WHERE id = '"+id +"'";

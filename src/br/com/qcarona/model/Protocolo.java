@@ -31,5 +31,6 @@ public abstract class Protocolo {
         public static final int SOLICITACAO_AMIZ_ENVIADA = 105;
         public static final int JA_EXISTE_SOLICITACAO_AMIZ = 106;
         public static final int CARONA_DISPONIVEL = 107;
+        public static final int RETORNO_BUSCA_AMIGOS = 108;
     }
 }
