@@ -107,7 +107,31 @@ public class ControllerDados {
 			e.printStackTrace();
 			return null;
 		}
-
+	}
+	
+	public String buscarSolicitacaoAmigos(int id){
+		PreparedStatement stm;
+		try {
+			stm = userdao.buscarSolicitacoes(id);
+			ResultSet rs = stm.executeQuery();
+			String s = "";
+			boolean b = false;
+			while(rs.next()){
+				if(b){
+					s = s + "&";
+				}else{
+					b = true;
+				}
+				s = s + rs.getLong("id") + "/" + rs.getString("nome") + "/" + rs.getString("email") + "/" + rs.getString("idsolicitacao");
+			}
+			stm.close();
+			System.out.println(s);
+			return s;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public boolean obterDesfazAmigo(String id1S, String id2S){

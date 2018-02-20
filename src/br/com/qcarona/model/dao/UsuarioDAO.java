@@ -202,4 +202,14 @@ public class UsuarioDAO {
 			return false;
 		}
 	}
+	
+	public PreparedStatement buscarSolicitacoes(int idUsuario) throws SQLException {
+		String sql = "SELECT usuarios.nome,usuarios.email,usuarios.id,solicitacaoamizade.idsolicitacao FROM usuarios INNER JOIN solicitacaoamizade ON solicitacaoamizade.idusuariosolicitado = '"+ idUsuario+"' AND solicitacaoamizade.idusuariosolicitante = usuarios.id;";
+		PreparedStatement stm = this.con.prepareStatement(sql);
+		//ResultSet rs = stm.executeQuery();
+
+		return stm;
+		//stm.close();
+		//return rs;
+	}
 }

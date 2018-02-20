@@ -21,6 +21,7 @@ public abstract class Protocolo {
         public static final int OBTEM_PERFIL = 6;
         public static final int BUSCAR_AMIGOS = 7;
         public static final int DESFAZ_AMIGO = 8;
+        public static final int BUSCA_SOLICITACAO_AMIZADE = 9;
     }
 
     public abstract class Notificacao {

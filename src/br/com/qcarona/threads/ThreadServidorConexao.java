@@ -203,6 +203,29 @@ public class ThreadServidorConexao extends Thread {
 					saida.writeObject(resultDesfaz);
 					saida.flush();
 					break;
+				case Protocolo.Solicitacao.BUSCA_SOLICITACAO_AMIZADE:
+					if (informacoes.length > 1 && informacoes[1] != null) {
+						String idBuscaSolicitacaoS = informacoes[1].trim();
+						int idBuscaSolicitacao= Integer.parseInt(idBuscaSolicitacaoS);
+						String resultBSA = controller.buscarSolicitacaoAmigos(idBuscaSolicitacao);
+						if (resultBSA != null) {
+							if(resultBSA.equals("")) {
+								s = "Nova busca de amigos realiza, sem amigos";
+								saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+							}else{
+								String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBSA;
+								s = "Nova busca de amigos realizada";
+								saida.writeObject(envio);
+							}
+						} else{
+							s = "ERRO FATAL ao buscar amigos";
+							saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+						}
+					} else {
+						saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+					}
+					saida.flush();
+					break;
 				}
 				System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
 				textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
