@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.qcarona.model.Usuario;
+import br.com.qcarona.model.dao.AmigosDAO;
+import br.com.qcarona.model.dao.SolicitacaoDAO;
 import br.com.qcarona.model.dao.UsuarioDAO;
 
 public class ControllerDados {
@@ -146,6 +148,23 @@ public class ControllerDados {
 			return userdao.buscarUsuarioEmail(email);
 		}
 		return null;
+	}
+	
+	public boolean aceitaAmigo(int idUser, int idAmigo, int idSolicitacao) throws SQLException{
+		SolicitacaoDAO solic = new SolicitacaoDAO();
+		boolean b = solic.verificaExistencia(idUser, idAmigo, idSolicitacao);
+		if(b){
+			AmigosDAO amig = new AmigosDAO();
+			boolean b2 = amig.inserirAmizade(idAmigo, idUser);
+			if(b2){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+
+			return false;
+		}
 	}
 
 	public boolean solicitarAmizade(int id){

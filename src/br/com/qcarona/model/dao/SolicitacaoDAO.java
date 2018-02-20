@@ -66,6 +66,36 @@ public class SolicitacaoDAO {
             Logger.getLogger(SolicitacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
+    }
+    
+    public boolean verificaExistencia(int idUser, int idAmigo, int idSolicitacao){
+    	 PreparedStatement stm;
+    	 String sql = "SELECT * FROM solicitacaoAmizade WHERE idUsuarioSolicitante='" + idAmigo + "' AND idUsuarioSolicitado='" + idUser + "' OR  idUsuarioSolicitante='" + idAmigo + "' AND idUsuarioSolicitado='" + idUser + "' LIMIT 1;";
+    	 String sql2 = "DELETE FROM solicitacaoAmizade WHERE idUsuarioSolicitante='" + idAmigo + "' AND idUsuarioSolicitado='" + idUser + "' OR  idUsuarioSolicitante='" + idAmigo + "' AND idUsuarioSolicitado='" + idUser + "';";
+ 		
+    	 try {
+             stm = this.con.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery();
+             if (rs.next()) {
+                 rs.close();
+                 stm.close();
+                 try {
+         			PreparedStatement pstm = this.con.prepareStatement(sql2);
+         			pstm.executeUpdate();
+         			return true;
+         		}catch(SQLException erro){
+         			erro.printStackTrace();
+         			return false;
+         		}
+                 
+             } else {
+                 rs.close();
+                 stm.close();
+                 return false;
+             }
+         } catch (SQLException ex) {
+             Logger.getLogger(SolicitacaoDAO.class.getName()).log(Level.SEVERE, null, ex);
+             return false;
+         }
     }
 }

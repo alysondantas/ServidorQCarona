@@ -23,6 +23,7 @@ public abstract class Protocolo {
         public static final int DESFAZ_AMIGO = 8;
         public static final int BUSCA_SOLICITACAO_AMIZADE = 9;
         public static final int CIDADES_DISPONIVEIS = 10;
+        public static final int ACEITA_SOLICITACAO = 11;
     }
 
     public abstract class Notificacao {
@@ -34,6 +35,7 @@ public abstract class Protocolo {
         public static final int SOLICITACAO_AMIZ_ENVIADA = 105;
         public static final int JA_EXISTE_SOLICITACAO_AMIZ = 106;
         public static final int CARONA_DISPONIVEL = 107;
+        public static final int RETORNO_BUSCA_AMIGOS = 108;
         public static final int OPERACAO_CONCLUIDA = 109;
         public static final int OPERACAO_NAO_CONCLUIDA = 110;
         public static final int RETORNO_CIDADES_DISPONIVEIS = 111;
