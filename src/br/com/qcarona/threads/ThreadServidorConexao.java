@@ -58,7 +58,7 @@ public class ThreadServidorConexao extends Thread {
 				int opcao = Integer.parseInt(informacoes[0]);//recebe a opcao que o cliente mandou
 				String s = "erro";//string de log com erro
 				switch (opcao) {
-				case 0://realizar login
+				case Protocolo.Solicitacao.FAZER_LOGIN://realizar login
 					String email = informacoes[1].trim();//recebe as informaï¿½ï¿½es para cadastro
 					String senha = informacoes[2].trim();
 
@@ -71,7 +71,7 @@ public class ThreadServidorConexao extends Thread {
 					saida.writeObject(result);
 					saida.flush();
 					break;
-				case 1://cadastrar
+				case Protocolo.Solicitacao.CADASTRA_USUARIO://cadastrar
 					String nomeCad = informacoes[1].trim();
 					String sobrenomeCad = informacoes[2].trim();
 					String emailCad = informacoes[3].trim();
@@ -177,12 +177,30 @@ public class ThreadServidorConexao extends Thread {
 								saida.writeObject(envio);
 							}
 						} else{
-							s = "ERRO FATAL";
+							s = "ERRO FATAL ao buscar amigos";
 							saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
 						}
 					} else {
 						saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
 					}
+					saida.flush();
+					break;
+				case Protocolo.Solicitacao.DESFAZ_AMIGO:
+					String idprinc = informacoes[1].trim();
+					String idsec = informacoes[2].trim();
+					boolean bDesfaz = controller.obterDesfazAmigo(idprinc, idsec);
+					String resultDesfaz;
+					if(bDesfaz){
+						resultDesfaz = Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|" + idsec;
+					}else{
+						resultDesfaz = Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|" + idsec;
+					}
+					if(resultDesfaz.equals(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "")){
+						s = "Nova solicitação de amizade desfeita.";
+					}else{
+						s = "ERRO ao desfazer solicitação de amizade";
+					}
+					saida.writeObject(resultDesfaz);
 					saida.flush();
 					break;
 				}

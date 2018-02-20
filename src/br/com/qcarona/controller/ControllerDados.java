@@ -52,6 +52,7 @@ public class ControllerDados {
 	public String obterPerfil(String idS) throws SQLException{
 		int id = Integer.parseInt(idS);
 		Usuario user = userdao.ObtemPerfil(id);
+		System.out.println("teste de obter perfil para " + id);
 		if (user == null) {
 			return Protocolo.Notificacao.USUARIO_NAO_CADASTRADO+"";
 		}
@@ -107,6 +108,13 @@ public class ControllerDados {
 			return null;
 		}
 
+	}
+	
+	public boolean obterDesfazAmigo(String id1S, String id2S){
+		int id1 = Integer.parseInt(id1S);
+		int id2 = Integer.parseInt(id2S);
+		boolean b = userdao.apagaAmigo(id1, id2);
+		return b;
 	}
 
 	public Usuario buscarUsuario(String email) throws SQLException{
