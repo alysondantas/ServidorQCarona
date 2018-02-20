@@ -193,9 +193,15 @@ public class UsuarioDAO {
 
 	public boolean apagaAmigo(int id1, int id2){
 		String sql = "DELETE FROM amigos WHERE idprimusuario = '"+id1+"' AND idsecusuario = '" +id2+ "';";
+		String sql2 = "DELETE FROM amigos WHERE idprimusuario = '"+id2+"' AND idsecusuario = '" +id1+ "';";
+		
 		try {
 			PreparedStatement pstm = this.con.prepareStatement(sql);
 			pstm.executeUpdate();
+			pstm.close();
+			PreparedStatement pstm2 = this.con.prepareStatement(sql2);
+			pstm2.executeUpdate();
+			pstm2.close();
 			return true;
 		}catch(SQLException erro){
 			erro.printStackTrace();

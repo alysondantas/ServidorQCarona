@@ -21,12 +21,15 @@ public class AmigosDAO {
         this.con = Conexao.getConnection();
     }
 
-    public boolean inserirAmizade(String email1, String email2) {
+    public boolean inserirAmizade(int id1, int id2) {
         String sql = "insert into  amigos (idPrimUsuario, idSecUsuario) values(?, ?)";
         try {
             PreparedStatement stm = this.con.prepareStatement(sql);
-            stm.setString(1, email1);
-            stm.setString(2, email2);
+            stm.setInt(1, id1);
+            stm.setInt(2, id2);
+            stm.executeUpdate();
+            stm.setInt(1, id2);
+            stm.setInt(2, id1);
             stm.executeUpdate();
             stm.close();
             return true;

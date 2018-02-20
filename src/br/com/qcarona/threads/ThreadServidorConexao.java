@@ -210,17 +210,41 @@ public class ThreadServidorConexao extends Thread {
 						String resultBSA = controller.buscarSolicitacaoAmigos(idBuscaSolicitacao);
 						if (resultBSA != null) {
 							if(resultBSA.equals("")) {
-								s = "Nova busca de amigos realiza, sem amigos";
+								s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
 								saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
 							}else{
 								String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBSA;
-								s = "Nova busca de amigos realizada";
+								s = "Nova busca de solicitacoes de amigos realizada";
 								saida.writeObject(envio);
 							}
 						} else{
-							s = "ERRO FATAL ao buscar amigos";
+							s = "ERRO FATAL ao buscar solicitacao amizade";
 							saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
 						}
+					} else {
+						saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+					}
+					saida.flush();
+					break;
+				case Protocolo.Solicitacao.ACEITA_SOLICITACAO:
+					if (informacoes.length > 1 && informacoes[1] != null) {
+						
+						String idSolicitadoS = informacoes[1].trim();
+						String idAmigoS = informacoes[2].trim();
+						String idSolicitacaoS = informacoes[3].trim();
+						int idSolicitado = Integer.parseInt(idSolicitadoS);
+						int idAmigo = Integer.parseInt(idAmigoS);
+						int idSolicicao = Integer.parseInt(idSolicitacaoS);
+						boolean bACEITA = controller.aceitaAmigo(idSolicitado,idAmigo,idSolicicao);
+						if(bACEITA) {
+							s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
+							saida.writeObject(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|OK");
+						}else{
+							String envio = Protocolo.Notificacao.JA_EXISTE_SOLICITACAO_AMIZ + "|" + "ERRO";
+							s = "Nova busca de solicitacoes de amigos realizada";
+							saida.writeObject(envio);
+						}
+
 					} else {
 						saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
 					}
