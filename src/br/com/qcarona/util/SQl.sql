@@ -8,6 +8,7 @@ CREATE TABLE public.usuarios (
   cep VARCHAR(9),
   data VARCHAR(10),
   datacadastrado DATE DEFAULT 'now'::text::date,
+  qualificacao REAL DEFAULT 2.5 NOT NULL,
   CONSTRAINT usuarios_email_key UNIQUE(email),
   CONSTRAINT usuarios_numero_key UNIQUE(numero),
   CONSTRAINT usuarios_pkey PRIMARY KEY(id)
