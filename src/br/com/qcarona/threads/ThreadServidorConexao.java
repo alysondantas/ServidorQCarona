@@ -198,9 +198,9 @@ public class ThreadServidorConexao extends Thread {
                                     s = "Nova busca de amigos realiza, sem amigos";
                                     saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
                                 } else {
-                                    String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBA;
+                                    String envioBA = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBA;
                                     s = "Nova busca de amigos realizada";
-                                    saida.writeObject(envio);
+                                    saida.writeObject(envioBA);
                                 }
                             } else {
                                 s = "ERRO FATAL ao buscar amigos";
@@ -239,9 +239,9 @@ public class ThreadServidorConexao extends Thread {
                                     s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
                                     saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
                                 } else {
-                                    String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBSA;
+                                    String envioSA = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBSA;
                                     s = "Nova busca de solicitacoes de amigos realizada";
-                                    saida.writeObject(envio);
+                                    saida.writeObject(envioSA);
                                 }
                             } else {
                                 s = "ERRO FATAL ao buscar solicitacao amizade";
@@ -266,9 +266,9 @@ public class ThreadServidorConexao extends Thread {
                                 s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
                                 saida.writeObject(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|OK");
                             } else {
-                                String envio = Protocolo.Notificacao.JA_EXISTE_SOLICITACAO_AMIZ + "|" + "ERRO";
+                                String envioAS = Protocolo.Notificacao.JA_EXISTE_SOLICITACAO_AMIZ + "|" + "ERRO";
                                 s = "Nova busca de solicitacoes de amigos realizada";
-                                saida.writeObject(envio);
+                                saida.writeObject(envioAS);
                             }
 
                         } else {
