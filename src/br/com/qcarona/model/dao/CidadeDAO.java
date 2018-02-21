@@ -32,7 +32,7 @@ public class CidadeDAO {
         PreparedStatement stm;
         List<String> cidades = new ArrayList<>();
         try {
-            stm = this.con.prepareStatement("SELECT * FROM cidade");
+            stm = this.con.prepareStatement("SELECT * FROM cidade where id_uf='5'");
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 cidades.add(rs.getString("nome_cidade"));
@@ -51,7 +51,7 @@ public class CidadeDAO {
         PreparedStatement stm;
         int idCidades = -1;
         try {
-            stm = this.con.prepareStatement("SELECT * FROM cidade WHERE nome_cidade='" + nome + "'");
+            stm = this.con.prepareStatement("SELECT * FROM cidade WHERE nome_cidade='" + nome + "';");
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 idCidades = rs.getInt("id_cidade");

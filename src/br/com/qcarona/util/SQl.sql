@@ -1,3 +1,6 @@
+drop schema public cascade;
+create schema public;
+
 CREATE TABLE public.usuarios (
   id SERIAL,
   nome VARCHAR(100) NOT NULL,
