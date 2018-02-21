@@ -20,7 +20,7 @@ CREATE TABLE public.amigos (
     idSecUsuario INTEGER NOT NULL,
     CONSTRAINT PKAmigos PRIMARY KEY (idamizade),
     CONSTRAINT FKAmigosUsuario FOREIGN KEY(idPrimUsuario) REFERENCES usuarios(id),
-    CONSTRAINT FKAmigosUsuario2 FOREIGN KEY(idSecUSuario) REFERENCES usuarios(id)
+    CONSTRAINT FKAmigosUsuario2 FOREIGN KEY(idSecUsuario) REFERENCES usuarios(id)
 );
 
 CREATE TABLE public.solicitacaoAmizade (
@@ -42,6 +42,6 @@ CREATE TABLE public.caronasOfertadas (
     quantVagas INTEGER NOT NULL,
     CONSTRAINT PKCaronas PRIMARY KEY(idCaronasOfertadas),
     CONSTRAINT FKCaronasUsuario FOREIGN KEY(idUsuarioOfertante) REFERENCES usuarios(id),
-    CONSTRAINT FKCaronasCidadeOrigem FOREIGN KEY(idCidadeOrigem) REFERENCES cidade(id),
-    CONSTRAINT FKCaronasCidadeDestino FOREIGN KEY(idCidadeDestino) REFERENCES cidade(id)
+    CONSTRAINT FKCaronasCidadeOrigem FOREIGN KEY(idCidadeOrigem) REFERENCES cidade(id_cidade),
+    CONSTRAINT FKCaronasCidadeDestino FOREIGN KEY(idCidadeDestino) REFERENCES cidade(id_cidade)
 );

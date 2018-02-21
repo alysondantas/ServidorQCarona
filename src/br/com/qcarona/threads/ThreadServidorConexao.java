@@ -147,9 +147,9 @@ public class ThreadServidorConexao extends Thread {
                         String forEnvio = Protocolo.Notificacao.RETORNO_CIDADES_DISPONIVEIS + "|";
                         String caronasString = "";
                         for (Carona carona : caronas) {
-                            caronasString += carona.getIdCarona() + "," + usuarioDAO.buscarUsuarioID(carona.getIdUsuarioOfertante()).getNome() +","+ carona.getHorarioCarona()+ ";";
+                            caronasString += carona.getIdCarona() + "," + usuarioDAO.buscarUsuarioID(carona.getIdUsuarioOfertante()).getNome() + "," + carona.getHorarioCarona() + ";";
                         }
-                        saida.writeObject(forEnvio+caronasString);
+                        saida.writeObject(forEnvio + caronasString);
                         saida.flush();
                         break;
                     case Protocolo.Solicitacao.EDITAR_PERFIL:
@@ -185,103 +185,103 @@ public class ThreadServidorConexao extends Thread {
                             s = "Tentativa falha de editar: " + emailEdit;
                             saida.writeObject("100");
                         }*/
-					saida.writeObject(resultObter);
-					saida.flush();
-					break;
-				case Protocolo.Solicitacao.BUSCAR_AMIGOS:
-					if (informacoes.length > 1 && informacoes[1] != null) {
-						String idBuscaAmigosS = informacoes[1].trim();
-						int idBuscaAmigos = Integer.parseInt(idBuscaAmigosS);
-						String resultBA = controller.buscarAmigos(idBuscaAmigos);
-						if (resultBA != null) {
-							if(resultBA.equals("")) {
-								s = "Nova busca de amigos realiza, sem amigos";
-								saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
-							}else{
-								String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBA;
-								s = "Nova busca de amigos realizada";
-								saida.writeObject(envio);
-							}
-						} else{
-							s = "ERRO FATAL ao buscar amigos";
-							saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
-						}
-					} else {
-						saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
-					}
-					saida.flush();
-					break;
-				case Protocolo.Solicitacao.DESFAZ_AMIGO:
-					String idprinc = informacoes[1].trim();
-					String idsec = informacoes[2].trim();
-					boolean bDesfaz = controller.obterDesfazAmigo(idprinc, idsec);
-					String resultDesfaz;
-					if(bDesfaz){
-						resultDesfaz = Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|" + idsec;
-					}else{
-						resultDesfaz = Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|" + idsec;
-					}
-					if(resultDesfaz.equals(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "")){
-						s = "Nova solicita��o de amizade desfeita.";
-					}else{
-						s = "ERRO ao desfazer solicita��o de amizade";
-					}
-					saida.writeObject(resultDesfaz);
-					saida.flush();
-					break;
-				case Protocolo.Solicitacao.BUSCA_SOLICITACAO_AMIZADE:
-					if (informacoes.length > 1 && informacoes[1] != null) {
-						String idBuscaSolicitacaoS = informacoes[1].trim();
-						int idBuscaSolicitacao= Integer.parseInt(idBuscaSolicitacaoS);
-						String resultBSA = controller.buscarSolicitacaoAmigos(idBuscaSolicitacao);
-						if (resultBSA != null) {
-							if(resultBSA.equals("")) {
-								s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
-								saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
-							}else{
-								String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBSA;
-								s = "Nova busca de solicitacoes de amigos realizada";
-								saida.writeObject(envio);
-							}
-						} else{
-							s = "ERRO FATAL ao buscar solicitacao amizade";
-							saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
-						}
-					} else {
-						saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
-					}
-					saida.flush();
-					break;
-				case Protocolo.Solicitacao.ACEITA_SOLICITACAO:
-					if (informacoes.length > 1 && informacoes[1] != null) {
-						
-						String idSolicitadoS = informacoes[1].trim();
-						String idAmigoS = informacoes[2].trim();
-						String idSolicitacaoS = informacoes[3].trim();
-						int idSolicitado = Integer.parseInt(idSolicitadoS);
-						int idAmigo = Integer.parseInt(idAmigoS);
-						int idSolicicao = Integer.parseInt(idSolicitacaoS);
-						boolean bACEITA = controller.aceitaAmigo(idSolicitado,idAmigo,idSolicicao);
-						if(bACEITA) {
-							s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
-							saida.writeObject(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|OK");
-						}else{
-							String envio = Protocolo.Notificacao.JA_EXISTE_SOLICITACAO_AMIZ + "|" + "ERRO";
-							s = "Nova busca de solicitacoes de amigos realizada";
-							saida.writeObject(envio);
-						}
+                        saida.writeObject(resultObter);
+                        saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.BUSCAR_AMIGOS:
+                        if (informacoes.length > 1 && informacoes[1] != null) {
+                            String idBuscaAmigosS = informacoes[1].trim();
+                            int idBuscaAmigos = Integer.parseInt(idBuscaAmigosS);
+                            String resultBA = controller.buscarAmigos(idBuscaAmigos);
+                            if (resultBA != null) {
+                                if (resultBA.equals("")) {
+                                    s = "Nova busca de amigos realiza, sem amigos";
+                                    saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
+                                } else {
+                                    String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBA;
+                                    s = "Nova busca de amigos realizada";
+                                    saida.writeObject(envio);
+                                }
+                            } else {
+                                s = "ERRO FATAL ao buscar amigos";
+                                saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
+                            }
+                        } else {
+                            saida.writeObject(Protocolo.Notificacao.RETORNO_BUSCA_EMAIL + "|ERRO");
+                        }
+                        saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.DESFAZ_AMIGO:
+                        String idprinc = informacoes[1].trim();
+                        String idsec = informacoes[2].trim();
+                        boolean bDesfaz = controller.obterDesfazAmigo(idprinc, idsec);
+                        String resultDesfaz;
+                        if (bDesfaz) {
+                            resultDesfaz = Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|" + idsec;
+                        } else {
+                            resultDesfaz = Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|" + idsec;
+                        }
+                        if (resultDesfaz.equals(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "")) {
+                            s = "Nova solicita��o de amizade desfeita.";
+                        } else {
+                            s = "ERRO ao desfazer solicita��o de amizade";
+                        }
+                        saida.writeObject(resultDesfaz);
+                        saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.BUSCA_SOLICITACAO_AMIZADE:
+                        if (informacoes.length > 1 && informacoes[1] != null) {
+                            String idBuscaSolicitacaoS = informacoes[1].trim();
+                            int idBuscaSolicitacao = Integer.parseInt(idBuscaSolicitacaoS);
+                            String resultBSA = controller.buscarSolicitacaoAmigos(idBuscaSolicitacao);
+                            if (resultBSA != null) {
+                                if (resultBSA.equals("")) {
+                                    s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
+                                    saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+                                } else {
+                                    String envio = Protocolo.Notificacao.RETORNO_BUSCA_AMIGOS + "|" + resultBSA;
+                                    s = "Nova busca de solicitacoes de amigos realizada";
+                                    saida.writeObject(envio);
+                                }
+                            } else {
+                                s = "ERRO FATAL ao buscar solicitacao amizade";
+                                saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+                            }
+                        } else {
+                            saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+                        }
+                        saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.ACEITA_SOLICITACAO:
+                        if (informacoes.length > 1 && informacoes[1] != null) {
 
-					} else {
-						saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
-					}
-					saida.flush();
-					break;
-				}
-				System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
-				textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
-			} else {
-				System.out.println("\nObjeto recebiddo n�o corresponde " + cliente.getRemoteSocketAddress().toString());
-				textField.setText(textField.getText() + "\nObjeto recebiddo n�o corresponde " + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
+                            String idSolicitadoS = informacoes[1].trim();
+                            String idAmigoS = informacoes[2].trim();
+                            String idSolicitacaoS = informacoes[3].trim();
+                            int idSolicitado = Integer.parseInt(idSolicitadoS);
+                            int idAmigo = Integer.parseInt(idAmigoS);
+                            int idSolicicao = Integer.parseInt(idSolicitacaoS);
+                            boolean bACEITA = controller.aceitaAmigo(idSolicitado, idAmigo, idSolicicao);
+                            if (bACEITA) {
+                                s = "Nova busca de solicitacoes de amigos realiza, sem amigos";
+                                saida.writeObject(Protocolo.Notificacao.OPERACAO_CONCLUIDA + "|OK");
+                            } else {
+                                String envio = Protocolo.Notificacao.JA_EXISTE_SOLICITACAO_AMIZ + "|" + "ERRO";
+                                s = "Nova busca de solicitacoes de amigos realizada";
+                                saida.writeObject(envio);
+                            }
+
+                        } else {
+                            saida.writeObject(Protocolo.Notificacao.OPERACAO_NAO_CONCLUIDA + "|ERRO");
+                        }
+                        saida.flush();
+                        break;
+                }
+                System.out.println("\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());
+                textField.setText(textField.getText() + "\nCliente atendido com sucesso: " + s + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
+            } else {
+                System.out.println("\nObjeto recebiddo n�o corresponde " + cliente.getRemoteSocketAddress().toString());
+                textField.setText(textField.getText() + "\nObjeto recebiddo n�o corresponde " + cliente.getRemoteSocketAddress().toString());//coloca o log no textArea
 
             }
             entrada.close();//finaliza a entrada
