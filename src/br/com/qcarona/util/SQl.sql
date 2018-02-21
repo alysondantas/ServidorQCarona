@@ -49,3 +49,14 @@ CREATE TABLE public.caronasOfertadas (
     CONSTRAINT FKCaronasCidadeOrigem FOREIGN KEY(idCidadeOrigem) REFERENCES cidade(id_cidade),
     CONSTRAINT FKCaronasCidadeDestino FOREIGN KEY(idCidadeDestino) REFERENCES cidade(id_cidade)
 );
+
+CREATE TABLE public.caronasEmAndamento (
+    idCaronaAndamento SERIAL,
+    idOfertante INTEGER NOT NULL,
+    idAproveitador INTEGER NOT NULL,
+    idCaronasOfertadas INTEGER NOT NULL,
+    CONSTRAINT PKCaronasAndamento PRIMARY KEY(idCaronaAndamento),
+    CONSTRAINT FKCaronasUsuario FOREIGN KEY(idOfertante) REFERENCES usuarios(id),
+    CONSTRAINT FKCaronasAproveitador FOREIGN KEY(idAproveitador) REFERENCES usuarios(id),
+    CONSTRAINT FKCaronas FOREIGN KEY(idCaronasOfertadas) REFERENCES caronasOfertadas(idCaronasOfertadas)
+);

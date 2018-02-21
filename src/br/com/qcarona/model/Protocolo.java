@@ -24,6 +24,9 @@ public abstract class Protocolo {
         public static final int BUSCA_SOLICITACAO_AMIZADE = 9;
         public static final int CIDADES_DISPONIVEIS = 10;
         public static final int ACEITA_SOLICITACAO = 11;
+        public static final int SUBMETER_CARONA = 12;
+        public static final int CONFIRMAR_CARONA = 13;
+        public static final int CARONAS_ANDAMENTO = 14;
     }
 
     public abstract class Notificacao {
@@ -39,5 +42,8 @@ public abstract class Protocolo {
         public static final int OPERACAO_CONCLUIDA = 109;
         public static final int OPERACAO_NAO_CONCLUIDA = 110;
         public static final int RETORNO_CIDADES_DISPONIVEIS = 111;
+        public static final int RESPOSTA_SUBMETER_CARONA = 112;
+        public static final int RESPOSTA_CONFIRMAR_CARONA = 113;
+        public static final int RESPOSTA_CARONAS_ANDAMENTOS = 114;
     }
 }

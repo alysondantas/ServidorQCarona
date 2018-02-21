@@ -15,6 +15,7 @@ import br.com.qcarona.exception.JaExisteAmizadeException;
 import br.com.qcarona.model.Carona;
 import br.com.qcarona.model.Protocolo;
 import br.com.qcarona.model.Usuario;
+import br.com.qcarona.model.dao.CaronaAndamentoDAO;
 import br.com.qcarona.model.dao.CaronaDAO;
 import br.com.qcarona.model.dao.CidadeDAO;
 import br.com.qcarona.model.dao.SolicitacaoDAO;
@@ -144,12 +145,58 @@ public class ThreadServidorConexao extends Thread {
                         String cidadeOrigem = informacoes[1];
                         String cidadeDestino = informacoes[2];
                         List<Carona> caronas = caronaDAO.buscarCaronasDiponiveis(cidadeOrigem.trim(), cidadeDestino.trim());
-                        String forEnvio = Protocolo.Notificacao.RETORNO_CIDADES_DISPONIVEIS + "|";
+                        String forEnvio = Protocolo.Notificacao.CARONA_DISPONIVEL + "|";
                         String caronasString = "";
                         for (Carona carona : caronas) {
                             caronasString += carona.getIdCarona() + "," + usuarioDAO.buscarUsuarioID(carona.getIdUsuarioOfertante()).getNome() + "," + carona.getHorarioCarona() + ";";
                         }
                         saida.writeObject(forEnvio + caronasString);
+                        saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.SUBMETER_CARONA:
+                        String id = informacoes[1].trim();
+                        String cidadeOrigemT = informacoes[2].trim();
+                        String cidadeDestinoT = informacoes[3].trim();
+                        String data = informacoes[4].trim();
+                        String hora = informacoes[5].trim();
+                        CaronaDAO caronaDAO1 = new CaronaDAO();
+                        caronaDAO1.inserirCarona(id, cidadeOrigemT, cidadeDestinoT, data, hora);
+                        String envio1 = Protocolo.Notificacao.RESPOSTA_SUBMETER_CARONA + "|";
+                        saida.writeObject(envio1);
+                        saida.flush();
+                        break;
+                    case Protocolo.Solicitacao.CONFIRMAR_CARONA:
+                        CaronaDAO caronaDAO2 = new CaronaDAO();
+                        CaronaAndamentoDAO caronaAndamentoDAO = new CaronaAndamentoDAO();
+
+                        int idAproveitador = Integer.parseInt(informacoes[1].trim());
+                        int idCarona = Integer.parseInt(informacoes[2].trim());
+                        Carona c = caronaDAO2.buscarCaronasPorID(idCarona);
+                        if (c == null) {
+                            saida.writeObject("|ERRO");
+                            saida.flush();
+                            break;
+                        }
+                        int idOfertante = c.getIdUsuarioOfertante();
+
+                        caronaAndamentoDAO.insertCaronaAndamento(idOfertante, idAproveitador, idCarona);
+                        String envio2 = Protocolo.Notificacao.RESPOSTA_CONFIRMAR_CARONA + "|";
+                        saida.writeObject(envio2);
+                        saida.flush();
+                        break;
+                       
+                    case Protocolo.Solicitacao.CARONAS_ANDAMENTO:
+                        int idUsuario = Integer.parseInt(informacoes[1].trim());
+                        CaronaAndamentoDAO caronaAndamentoDAO1 = new CaronaAndamentoDAO();
+                        UsuarioDAO usuarioDAO1 = new UsuarioDAO();
+                        List<String> resul = caronaAndamentoDAO1.buscarCaronasAndamentoIDUSuario(idUsuario);
+                        String resp = Protocolo.Notificacao.RESPOSTA_CARONAS_ANDAMENTOS+"|";
+                        String texto = "";
+                        for (String string : resul) {
+                            String[] a = string.split(",");
+                            texto += a[0] + "," + usuarioDAO1.buscarUsuarioID(idUsuario).getNome()+";";
+                        }
+                        saida.writeObject(resp + texto);
                         saida.flush();
                         break;
                     case Protocolo.Solicitacao.EDITAR_PERFIL:
